@@ -14,7 +14,9 @@ function App() {
   }
 
   //agregar citas 
-  const [ citas, guardarCitas ] = useState (citasIniciales); 
+  const [ citas, guardarCitas ] = useState (citasIniciales);
+
+  const [ citasOrdenadas, ordenarCitas ] = useState (citas);
 
   //Use  Effect para realizar ciertas operaciones cuando el state cambia
   useEffect( () => {
@@ -24,7 +26,10 @@ function App() {
     }else{
       localStorage.setItem('citas', JSON.stringify([]))
     }
-  }, [citas, ])
+    const reordenarCitas = [...citas]
+
+    ordenarCitas(reordenarCitas)
+  }, [citas ])
 
   //funcion - tomar las citas actuales y agregar la nueva 
   const crearCita = (cita) => {
@@ -40,7 +45,12 @@ function App() {
     guardarCitas(nuevasCitas)
   }
 
-  const titulo = citas.length === 0 ? 'No hay citas' : 'Administra tus citas';
+  const voltearCitas = () => {
+    const newcitas = [...citasOrdenadas].reverse()
+    ordenarCitas(newcitas)
+  }
+
+  const titulo = citasOrdenadas.length === 0 ? 'No hay citas' : 'Administra tus citas';
   
   return (
     <Fragment>
@@ -54,8 +64,9 @@ function App() {
           </div>
           <div className="one-half column">
             <h2>{titulo}</h2>
+            <button onClick={ () => voltearCitas() } className="button__oerdenar">Voltear</button>
             <div className="scroll__container">
-              {citas.map( cita => (
+              {citasOrdenadas.map( cita => (
                 <Cita
                   key={cita.id}
                   cita={cita}

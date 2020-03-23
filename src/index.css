@@ -100,3 +100,9 @@ input[type="time"] {
   overflow-x: auto;
   padding-top: 14px;
 }
+
+.button__oerdenar{
+  background: #ffffff;
+  color: #000000;
+
+}
